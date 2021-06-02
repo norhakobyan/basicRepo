@@ -2,4 +2,9 @@ const add = function(x, y) {
   return x + y;
 }
 
-module.exports = add;
+const foo = x => x - 15;
+
+module.exports = {
+  add,
+  foo
+};
