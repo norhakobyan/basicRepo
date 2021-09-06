@@ -1,20 +1,27 @@
+const express = require('express');
+const User = require('./users/index');
 
-const MyPersonConstructor = require('./helper');
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded());
+const userDb = new User();
 
-const person1 = new MyPersonConstructor('Edgar', 27, 'edgar@mail.ru');
+app.post('/reg', async (req, res) => {
+  try {
+    console.log(req.body);
+    const { password, email } = req.body;
 
-console.log(new MyPersonConstructor('Edgar', 27, 'edgar@mail.ru'));
+    if(!password, !email) {
+      return res.send('Invalid registration data');
+    }
 
+    const result = await userDb.create(req.body);
 
+    return res.send(result);
+  } catch(e) {
+    return res.send('Something went wrong');
+  }
+})
 
-// const person2 = new MyPersonConstructor('Miqayel', 18, 'miqayel@mail.ru');
-// const person3 = new MyPersonConstructor('Hasmik', 17, 'hasmik@mail.ru');
-
-// person1.friends.push(person2);
-// person1.activity.push(10);
-// person1.activity.push(9);
-// person1.activity.push(8);
-// person1.setHobbies('Chess');
-// person1.setHobbies('chunem el appe');
-// person1.getHobbies();
+app.listen(3000);
 
