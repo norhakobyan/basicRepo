@@ -18,11 +18,25 @@ const userSchema = new Schema({
   firstName: String,
   lastName: String,
   phone: String,
+  subscriber: Number,
 });
 
+const subscribtionSchema = {
+  source: mongoose.SchemaTypes.ObjectId,
+  target: mongoose.SchemaTypes.ObjectId,
+  state: String,
+  date: {
+    type: Date,
+    default: new Date(),
+  },
+}
+
 const UserModel = mongoose.model('users', userSchema );
+const SubscribtionModel = mongoose.model('subscribtions', subscribtionSchema);
+
 
 module.exports = {
   UserModel,
+  SubscribtionModel,
 }
 

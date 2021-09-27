@@ -1,5 +1,5 @@
 const redis = require("redis");
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
 
@@ -13,6 +13,7 @@ class User {
   async create(user) {
 
     const findUser = await UserModel.findOne({ email: user.email });
+
     if(findUser) {
       throw new Error('This email is already exists');
     }
@@ -34,13 +35,32 @@ class User {
 
   async logOut(token) {
 
-    const { userId } = jwt.verify(token, 'basicItCenter');
-    const user = await UserModel.findOne({ id: userId });
+    const { userId, iat } = jwt.verify(token, 'basicItCenter');
+    console.log('iattt', iat, userId);
+    const user = await UserModel.findOne({ _id: userId });
+    console.log(user);
     if(!user) {
       throw new Error('Sonething went wrong');
     }
     await promisify(client.del).bind(client)(user.id);
     return 'success'
+  }
+
+  async checkLogin(token) {
+    const { userId, iat } = jwt.verify(token, 'basicItCenter');
+    const user = await UserModel.findOne({ _id: userId });
+    const id = user._id;
+    const isLogined = await promisify(client.get).bind(client)(user._id.toString());
+    if(!user || !isLogined) {
+      throw new Error('This user not found!');
+    }
+
+    return user._id;
+  }
+
+  async find(id) {
+    const result = await UserModel.findOne({_id: id});
+    return result;
   }
 }
 
