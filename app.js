@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 const user = new User();
 const subscribtion = new Subscribtion();
 
+
 app.post('/reg', async (req, res) => {
   try {
     console.log(req.body);
@@ -58,8 +59,8 @@ app.post('/logOut', async (req, res) => {
 });
 
 app.post('/subcribe/:id', async (req, res) => {
+
   try {
-    console.log('skzbi user', user);
     const { token } = req.body;
     const target = req.params.id;
     const currentUser = await user.checkLogin(token);
@@ -67,6 +68,19 @@ app.post('/subcribe/:id', async (req, res) => {
     console.log(result);
     return res.send(result);
   } catch(e) {
+    return res.send('Something went wrong');
+  }
+});
+
+app.get('/subscribtions', async (req, res) => {
+
+  try {
+    const { token } = req.body;
+    const currentUser = await user.checkLogin(token);
+    const result = await subscribtion.getPnadingSubscriptions(currentUser);
+    return res.send(result);
+  } catch(e) {
+    console.log(e);
     return res.send('Something went wrong');
   }
 });
