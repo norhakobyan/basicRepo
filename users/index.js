@@ -38,7 +38,6 @@ class User {
     const { userId, iat } = jwt.verify(token, 'basicItCenter');
     console.log('iattt', iat, userId);
     const user = await UserModel.findOne({ _id: userId });
-    console.log(user);
     if(!user) {
       throw new Error('Sonething went wrong');
     }

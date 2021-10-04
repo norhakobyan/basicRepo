@@ -26,6 +26,32 @@ class Subscribtion {
     
     return subcribtions;
   }
+
+  async acceptPandingSubscription(userId, subscribtionId) {
+    const currentUser = await user.find({ _id: userId });
+    if(!currentUser) {
+      throw new Error('User not found!');
+    }
+    const subscription = await SubscribtionModel.updateOne({ 
+      _id: subscribtionId, 
+      target: userId, 
+      state: 'panding' }, { $set: { state: 'accept' } });
+    
+    return subscription;
+  }
+
+  async rejectPandingSubscribtions(userId, subscribtionId) {
+    const currentUser = await user.find({ _id: userId });
+    if(!currentUser) {
+      throw new Error('User not found!');
+    }
+    const subscription = await SubscribtionModel.deleteOne({
+      _id: subscribtionId, 
+      target: userId, 
+      state: 'panding' });
+    
+    return subscription;
+  }
 }
 
 module.exports = Subscribtion;

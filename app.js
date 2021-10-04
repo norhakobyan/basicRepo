@@ -58,7 +58,7 @@ app.post('/logOut', async (req, res) => {
   }
 });
 
-app.post('/subcribe/:id', async (req, res) => {
+app.post('/subscribtions/:id', async (req, res) => {
 
   try {
     const { token } = req.body;
@@ -84,6 +84,32 @@ app.get('/subscribtions', async (req, res) => {
     return res.send('Something went wrong');
   }
 });
+
+app.put('/subscribtions/:id', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const currentUser = await user.checkLogin(token);
+    const subscriptionId = req.params.id;
+    const result = await subscribtion.acceptPandingSubscription(currentUser, subscriptionId);
+    return res.send(result);
+  } catch(e) {
+    console.log(e);
+    return res.send('Something went wrong');
+  }
+});
+
+app.delete('/subscribtions/:id', async (req, res) => {
+  try{
+    const { token } = req.body;
+    const currentUser = await user.checkLogin(token);
+    const subscriptionId = req.params.id;
+    const result = await subscribtion.rejectPandingSubscribtions(currentUser, subscriptionId);
+    return res.send(result);
+  } catch(e) {
+    console.log(e);
+    return res.send('Something went wrong');
+  }
+})
 
 
 app.listen(3000);
