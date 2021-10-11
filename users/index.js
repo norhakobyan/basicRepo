@@ -1,5 +1,6 @@
 const redis = require("redis");
 const jwt = require('jsonwebtoken');
+const md5 = require('md5');
 const { promisify } = require('util');
 
 
@@ -17,13 +18,13 @@ class User {
     if(findUser) {
       throw new Error('This email is already exists');
     }
-    const result = await UserModel.create(user);
+    const result = await UserModel.create({...user, password: md5(user.password)});
     return result;
   }
 
   async login(email, password) {
 
-    const user = await UserModel.findOne({ email, password });
+    const user = await UserModel.findOne({ email, password: md5(password) });
     if(!user) {
       throw new Error('User not found!');
     }

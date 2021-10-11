@@ -11,7 +11,6 @@ const subscribtion = new Subscribtion();
 
 app.post('/reg', async (req, res) => {
   try {
-    console.log(req.body);
     const { password, email } = req.body;
 
     if(!password, !email) {
