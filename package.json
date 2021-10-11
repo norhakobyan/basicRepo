@@ -1,0 +1,30 @@
+{
+  "name": "basic",
+  "version": "1.0.0",
+  "description": "some description",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norhakobyan/basicRepo.git"
+  },
+  "author": "Norayr Hakobyan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/norhakobyan/basicRepo/issues"
+  },
+  "homepage": "https://github.com/norhakobyan/basicRepo#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.3.0",
+    "mongoose": "^6.0.0",
+    "redis": "^3.1.2",
+    "request": "^2.88.2",
+    "util": "^0.12.4"
+  }
+}
